@@ -52,10 +52,8 @@ void ATankPawn::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
-	const auto NewLocationForward = GetActorLocation() + MoveSpeedForward * DeltaTime * MovementSpeed * GetActorForwardVector();
+	const auto NewLocationForward = GetActorLocation() + MoveSpeedForward * DeltaTime * MovementSpeed * GetActorForwardVector() + MoveSpeedRight * DeltaTime * MovementSpeed * GetActorRightVector();
 	SetActorLocation(NewLocationForward);
-	const auto NewLocationRight = GetActorLocation() + MoveSpeedRight * DeltaTime * MovementSpeed * GetActorRightVector();
-	SetActorLocation(NewLocationRight);
 }
 
 // Called to bind functionality to input
