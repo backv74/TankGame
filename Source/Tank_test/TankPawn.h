@@ -7,6 +7,9 @@
 #include "Components/BoxComponent.h"
 #include "GameFramework/SpringArmComponent.h"
 #include "Camera/CameraComponent.h"
+#include "GameFramework/PlayerController.h"
+#include "Components/ArrowComponent.h"
+#include "Public/Cannon.h"
 #include "TankPawn.generated.h"
 
 
@@ -20,8 +23,6 @@ public:
 	ATankPawn();
 
 	
-	
-
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Components")
 	UBoxComponent* BoxComponent;
 
@@ -37,11 +38,33 @@ public:
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Components")
 	UCameraComponent* CameraComponent;
 
-	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Components")
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Components")
+	UArrowComponent* CannonPosition;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Fire params")
+	TSubclassOf<ACannon> CannonType;
+
+	UPROPERTY()
+	ACannon* Cannon;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Movement")
 	float MovementSpeed = 100.0f;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Movement")
+	float RotationSpeed = 90;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Movement")
+	float MovementAcceleration = 0.1;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Movement")
+	float RotationAcceleration = 0.1;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Movement")
+	float TurretAcceleration = 0.1;
 
 	void MoveForward(float Scale);
 	void MoveRight(float Scale);
+	void RotateRight(float Scale);
 
 protected:
 	// Called when the game starts or when spawned
@@ -53,11 +76,23 @@ public:
 
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
-
+	
+	
 private:
-	FVector VelocityVector = FVector::ZeroVector;
+	
+	void MoveTank(float DeltaTime);
+	void RotationTank(float DeltaTime);
+	void RotateTurret(float DeltaTime);
 
-	float MoveSpeedForward = 0;
-	float MoveSpeedRight = 0;
+	float MoveScaleForwardTarget = 0;
+	float MoveScaleForwardCurrent = 0;
+	
+	float MoveScaleRightTarget = 0;
+	float MoveScaleRightCurrent = 0;
 
+	float RotationScaleTarget = 0;
+	float RotationScaleCurrent = 0;
+
+	UPROPERTY()
+	class ATankPlayerController* TankController;
 };

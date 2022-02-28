@@ -23,10 +23,17 @@ public:
 
 	void onMoveForward(float Amount);
 	void onMoveRight(float Amount);
-
+	void onRotationRight(float Amount);
+	
 	virtual void BeginPlay() override;
+
+	virtual void Tick(float DeltaSeconds) override;
+
+	FVector GetMousePosition() const { return MouseWorldPosition; };
 
 private:
 	UPROPERTY()
 	ATankPawn* PlayerTank;
+
+	FVector MouseWorldPosition;
 };
