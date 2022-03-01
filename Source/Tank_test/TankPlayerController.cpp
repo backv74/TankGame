@@ -13,7 +13,8 @@ void ATankPlayerController::SetupInputComponent()
 	InputComponent->BindAxis("MoveForward", this, &ATankPlayerController::onMoveForward);
 	InputComponent->BindAxis("MoveRight", this, &ATankPlayerController::onMoveRight);
 	InputComponent->BindAxis("RotationRight", this, &ATankPlayerController::onRotationRight);
-
+	InputComponent->BindAction("Shoot", IE_Pressed, this, &ATankPlayerController::onShoot);
+	
 	bShowMouseCursor = true;
 }
 
@@ -38,6 +39,12 @@ void ATankPlayerController::onRotationRight(float Amount)
 {
 	if (PlayerTank)
 		PlayerTank->RotateRight(Amount);
+}
+
+void ATankPlayerController::onShoot()
+{
+	if (PlayerTank)
+		PlayerTank->Shoot();
 }
 
 void ATankPlayerController::BeginPlay()

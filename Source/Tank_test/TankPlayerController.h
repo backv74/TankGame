@@ -24,7 +24,8 @@ public:
 	void onMoveForward(float Amount);
 	void onMoveRight(float Amount);
 	void onRotationRight(float Amount);
-	
+	void onShoot();
+
 	virtual void BeginPlay() override;
 
 	virtual void Tick(float DeltaSeconds) override;

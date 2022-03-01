@@ -54,6 +54,12 @@ void ATankPawn::RotateRight(float Scale)
 	RotationScaleTarget = Scale;
 }
 
+void ATankPawn::Shoot()
+{
+	if (Cannon)
+	Cannon->Shoot();
+}
+
 // Called when the game starts or when spawned
 void ATankPawn::BeginPlay()
 {
@@ -61,9 +67,11 @@ void ATankPawn::BeginPlay()
 	
 	TankController = CastChecked<ATankPlayerController>(GetController());
 
-	auto Transform = CannonPosition->GetComponentTransform();
-	Cannon = GetWorld()->SpawnActor<ACannon>(CannonType, Transform);
-	Cannon->AttachToComponent(CannonPosition, FAttachmentTransformRules::SnapToTargetIncludingScale);
+	if (CannonType) {
+		auto Transform = CannonPosition->GetComponentTransform();
+		Cannon = GetWorld()->SpawnActor<ACannon>(CannonType, Transform);
+		Cannon->AttachToComponent(CannonPosition, FAttachmentTransformRules::SnapToTargetIncludingScale);
+	}
 }
 
 // Called every frame

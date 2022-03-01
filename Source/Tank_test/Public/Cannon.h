@@ -35,6 +35,8 @@ public:
 
 	UPROPERTY(VisibleDefaultsOnly, BlueprintReadWrite, Category = "Fire params")
 	ECannonType Type = ECannonType::FireProjectile;
+	
+	void Shoot();
 
 protected:
 	// Called when the game starts or when spawned
@@ -43,5 +45,11 @@ protected:
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
+
+private:
+	void ResetShootState();
+	
+	FTimerHandle TimerHandle;
+	bool bReadyToShoot = true;
 
 };

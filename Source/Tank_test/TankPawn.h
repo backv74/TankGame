@@ -65,6 +65,8 @@ public:
 	void MoveForward(float Scale);
 	void MoveRight(float Scale);
 	void RotateRight(float Scale);
+	
+	void Shoot();
 
 protected:
 	// Called when the game starts or when spawned
