@@ -60,6 +60,18 @@ void ATankPawn::Shoot()
 	Cannon->Shoot();
 }
 
+void ATankPawn::AutoShoot()
+{
+	if (Cannon)
+	Cannon->AutoShoot();
+}
+
+void ATankPawn::Reload()
+{
+	if (Cannon)
+		Cannon->Reload();
+}
+
 // Called when the game starts or when spawned
 void ATankPawn::BeginPlay()
 {

@@ -67,6 +67,8 @@ public:
 	void RotateRight(float Scale);
 	
 	void Shoot();
+	void AutoShoot();
+	void Reload();
 
 protected:
 	// Called when the game starts or when spawned

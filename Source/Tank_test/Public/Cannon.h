@@ -34,9 +34,24 @@ public:
 	float FireRate = 1;
 
 	UPROPERTY(VisibleDefaultsOnly, BlueprintReadWrite, Category = "Fire params")
+	int ProjectileCount = 10;
+
+	UPROPERTY(VisibleDefaultsOnly, BlueprintReadWrite, Category = "Fire params")
+	int TraceCount = 10;
+
+	UPROPERTY(VisibleDefaultsOnly, BlueprintReadWrite, Category = "Fire params")
 	ECannonType Type = ECannonType::FireProjectile;
 	
+	UPROPERTY(VisibleDefaultsOnly, BlueprintReadWrite, Category = "Fire params")
+	int AutoShootNumbers = 3;
+
+	UPROPERTY(VisibleDefaultsOnly, BlueprintReadWrite, Category = "Fire params")
+	float AutoShootDelay = 3.f;
+
 	void Shoot();
+	void AutoShoot();
+	void AutoShootNumber();
+	void Reload();
 
 protected:
 	// Called when the game starts or when spawned
@@ -48,8 +63,16 @@ public:
 
 private:
 	void ResetShootState();
-	
+	void ResetAutoShootState();
+	void ReloadTime();
+
 	FTimerHandle TimerHandle;
+	FTimerHandle TimerHandleAutoShoot;
+	FTimerHandle TimerHandleReload;
+
 	bool bReadyToShoot = true;
+	bool bReadyToAutoShoot = true;
+	
+	int count = 0;
 
 };

@@ -25,6 +25,8 @@ public:
 	void onMoveRight(float Amount);
 	void onRotationRight(float Amount);
 	void onShoot();
+	void onAutoShoot();
+	void onReload();
 
 	virtual void BeginPlay() override;
 

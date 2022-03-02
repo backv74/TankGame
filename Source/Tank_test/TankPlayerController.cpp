@@ -14,6 +14,8 @@ void ATankPlayerController::SetupInputComponent()
 	InputComponent->BindAxis("MoveRight", this, &ATankPlayerController::onMoveRight);
 	InputComponent->BindAxis("RotationRight", this, &ATankPlayerController::onRotationRight);
 	InputComponent->BindAction("Shoot", IE_Pressed, this, &ATankPlayerController::onShoot);
+	InputComponent->BindAction("AutoShoot", IE_Pressed, this, &ATankPlayerController::onAutoShoot);
+	InputComponent->BindAction("Reload", IE_Pressed, this, &ATankPlayerController::onReload);
 	
 	bShowMouseCursor = true;
 }
@@ -45,6 +47,18 @@ void ATankPlayerController::onShoot()
 {
 	if (PlayerTank)
 		PlayerTank->Shoot();
+}
+
+void ATankPlayerController::onAutoShoot()
+{
+	if (PlayerTank)
+		PlayerTank->AutoShoot();
+}
+
+void ATankPlayerController::onReload()
+{
+	if (PlayerTank)
+		PlayerTank->Reload();
 }
 
 void ATankPlayerController::BeginPlay()

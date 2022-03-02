@@ -90,7 +90,6 @@ void ACannon::Tick(float DeltaTime)
 	GEngine->AddOnScreenDebugMessage(123456, 10, FColor::Blue, FString::Printf(TEXT("%u"), ProjectileCount));
 	GEngine->AddOnScreenDebugMessage(1234567, 10, FColor::Blue, FString::Printf(TEXT("%u"), TraceCount));
 	GEngine->AddOnScreenDebugMessage(1234, 10, FColor::Green, FString::Printf(TEXT("%f"), GetWorld()->GetTimerManager().GetTimerElapsed(TimerHandleAutoShoot)));
-	GEngine->AddOnScreenDebugMessage(123, 10, FColor::Orange, FString::Printf(TEXT("Reload %f"), GetWorld()->GetTimerManager().GetTimerElapsed(TimerHandleReload)));
 }
 
 void ACannon::ResetShootState()
