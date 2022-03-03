@@ -77,17 +77,16 @@ public:
 private:
 	void ResetShootState();
 	void ResetAutoShootState();
-	void ResetRocketState();
 	void ReloadTime();
 
 	FTimerHandle TimerHandle;
 	FTimerHandle TimerHandleAutoShoot;
 	FTimerHandle TimerHandleReload;
-	FTimerHandle TimerHandleRocket;
 
 	bool bReadyToShoot = true;
 	bool bReadyToAutoShoot = true;
 	bool bCannonAmmoFull = true;
-	bool bReadyToRocket = true;
+	
+	int count = 0;
 
 };

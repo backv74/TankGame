@@ -72,6 +72,12 @@ void ATankPawn::Reload()
 		Cannon->Reload();
 }
 
+void ATankPawn::RocketShoot()
+{
+	if (Cannon)
+		Cannon->RocketShoot();
+}
+
 // Called when the game starts or when spawned
 void ATankPawn::BeginPlay()
 {
@@ -119,8 +125,6 @@ void ATankPawn::RotationTank(float DeltaTime)
 	auto Rotation = GetActorRotation();
 	Rotation.Yaw += RotationScaleCurrent * RotationSpeed * DeltaTime;
 	SetActorRotation(Rotation);
-
-
 }
 
 void ATankPawn::RotateTurret(float DeltaTime)

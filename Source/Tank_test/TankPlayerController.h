@@ -27,6 +27,7 @@ public:
 	void onShoot();
 	void onAutoShoot();
 	void onReload();
+	void onRocketShoot();
 
 	virtual void BeginPlay() override;
 

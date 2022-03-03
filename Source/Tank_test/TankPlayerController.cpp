@@ -16,7 +16,7 @@ void ATankPlayerController::SetupInputComponent()
 	InputComponent->BindAction("Shoot", IE_Pressed, this, &ATankPlayerController::onShoot);
 	InputComponent->BindAction("AutoShoot", IE_Pressed, this, &ATankPlayerController::onAutoShoot);
 	InputComponent->BindAction("Reload", IE_Pressed, this, &ATankPlayerController::onReload);
-	
+	InputComponent->BindAction("RocketShoot", IE_Pressed, this, &ATankPlayerController::onRocketShoot);
 	bShowMouseCursor = true;
 }
 
@@ -59,6 +59,12 @@ void ATankPlayerController::onReload()
 {
 	if (PlayerTank)
 		PlayerTank->Reload();
+}
+
+void ATankPlayerController::onRocketShoot()
+{
+	if (PlayerTank)
+		PlayerTank->RocketShoot();
 }
 
 void ATankPlayerController::BeginPlay()

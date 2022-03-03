@@ -11,7 +11,6 @@ ACannon::ACannon()
 
 	RootComponent = CreateDefaultSubobject<USceneComponent>("RootComponent");
 	
-
 	CannonBody = CreateAbstractDefaultSubobject<UStaticMeshComponent>("CannonBody");
 	CannonBody->SetupAttachment(RootComponent);
 
@@ -21,16 +20,16 @@ ACannon::ACannon()
 
 void ACannon::Shoot()
 {
-	if (!bReadyToShoot || ProjectileCount == 0 || TraceCount == 0)
+	if (!bReadyToShoot || ProjectileCount == 0 || TraceCount == 0 || GetWorld()->GetTimerManager().IsTimerActive(TimerHandleReload))
 		return;
 
 	switch (Type)
 	{
-	case ECannonType::FireProjectile:
+	case ECanonType::FireProjectile:
 		GEngine->AddOnScreenDebugMessage(-1, 10, FColor::Green, FString(TEXT("PIU")));
 		if (ProjectileCount != 0) { ProjectileCount--; }
 		break;
-	case ECannonType::FireTrace:
+	case ECanonType::FireTrace:
 		GEngine->AddOnScreenDebugMessage(-1, 10, FColor::Red, FString(TEXT("PUF")));
 		if (TraceCount != 0) { TraceCount--; }
 		break;
@@ -44,25 +43,31 @@ void ACannon::Shoot()
 
 void ACannon::AutoShoot()
 {
-	if (!bReadyToAutoShoot)
+	if (!bReadyToAutoShoot || !bReadyToShoot || ProjectileCount == 0 || 
+		TraceCount == 0 || GetWorld()->GetTimerManager().IsTimerActive(TimerHandleReload))
 		return;
-	Type = ECannonType::FireTrace;
-	bReadyToAutoShoot = false;
-	count = 0;
-	//while (count < AutoShootNumbers) {
-		
-	//	GetWorld()->GetTimerManager().SetTimer(TimerHandleAutoShoot, 
-	//		FTimerDelegate::CreateUObject(this, &ACannon::AutoShootNumber), AutoShootDelay, false);
-	//	}
-	GetWorld()->GetTimerManager().SetTimer(TimerHandleAutoShoot, FTimerDelegate::CreateUObject(this, &ACannon::ResetAutoShootState), 1/FireRate, false);
 	
+	bReadyToAutoShoot = false;
+	bCannonAmmoFull = true;
+	
+	switch (Type)
+	{
+	case ECanonType::FireProjectile:
+		GEngine->AddOnScreenDebugMessage(-1, 10, FColor::Green, FString(TEXT("AutoPIU")));
+		if (ProjectileCount != 0) { ProjectileCount--; }
+		break;
+	case ECanonType::FireTrace:
+		GEngine->AddOnScreenDebugMessage(-1, 10, FColor::Red, FString(TEXT("AutoPUF")));
+		if (TraceCount != 0) { TraceCount--; }
+		break;
+	default:
+		break;
+	}
+
+	GetWorld()->GetTimerManager().SetTimer(TimerHandleAutoShoot, 
+		FTimerDelegate::CreateUObject(this, &ACannon::ResetAutoShootState), AutoShootDelay, bCannonAmmoFull);
 }
 
-void ACannon::AutoShootNumber()
-{
-	GEngine->AddOnScreenDebugMessage(-1, 10, FColor::Red, FString::Printf(TEXT("PUF %u")));
-	count++;
-}
 
 void ACannon::Reload()
 {
@@ -72,6 +77,27 @@ void ACannon::Reload()
 		GetWorld()->GetTimerManager().SetTimer(TimerHandleReload, 
 			FTimerDelegate::CreateUObject(this, &ACannon::ReloadTime), 2.f, false);
 	}
+}
+
+void ACannon::RocketShoot()
+{
+	if (!bReadyToRocket)
+		return;
+	switch (TypeRocket)
+	{
+	case ECanonRocketType::FireRocketProjectile:
+		GEngine->AddOnScreenDebugMessage(-1, 10, FColor::Green, FString(TEXT("RocketPIU")));
+		//if (ProjectileCount != 0) { ProjectileCount--; }
+		break;
+	case ECanonRocketType::FireRocketTrace:
+		GEngine->AddOnScreenDebugMessage(-1, 10, FColor::Red, FString(TEXT("RocketPUF")));
+		//if (TraceCount != 0) { TraceCount--; }
+		break;
+	default:
+		break;
+	}
+	GetWorld()->GetTimerManager().SetTimer(TimerHandleRocket, 
+		FTimerDelegate::CreateUObject(this, &ACannon::ResetRocketState), 1 / FireRate, false);
 }
 
 // Called when the game starts or when spawned
@@ -100,7 +126,23 @@ void ACannon::ResetShootState()
 
 void ACannon::ResetAutoShootState()
 {
-	bReadyToAutoShoot = true;
+	if (AutoShootNumbers != 1)
+	{
+		AutoShootNumbers--;
+		bReadyToAutoShoot = true;
+		AutoShoot();
+	}
+	else {
+		AutoShootNumbers = 3;
+		GetWorld()->GetTimerManager().ClearTimer(TimerHandleAutoShoot);
+		bReadyToAutoShoot = true;
+		bCannonAmmoFull = false;
+	}
+}
+
+void ACannon::ResetRocketState()
+{
+	bReadyToRocket = true;
 }
 
 void ACannon::ReloadTime()

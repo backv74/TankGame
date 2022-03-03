@@ -69,6 +69,7 @@ public:
 	void Shoot();
 	void AutoShoot();
 	void Reload();
+	void RocketShoot();
 
 protected:
 	// Called when the game starts or when spawned
